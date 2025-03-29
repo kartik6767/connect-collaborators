@@ -1,13 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import MainLayout from '@/components/layout/MainLayout';
+import HeroSection from '@/components/HeroSection';
+import FeaturedProjects from '@/components/FeaturedProjects';
+import CategoryFilter from '@/components/CategoryFilter';
+import SkillsSection from '@/components/SkillsSection';
+import HowItWorks from '@/components/HowItWorks';
+import TestimonialSection from '@/components/TestimonialSection';
+import CallToAction from '@/components/CallToAction';
+import { mockProjects, mockSkills } from '@/mockData';
 
 const Index = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  
+  const filteredProjects = selectedCategory === 'All Categories'
+    ? mockProjects
+    : mockProjects.filter(project => project.category === selectedCategory);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <MainLayout>
+      <HeroSection />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <CategoryFilter 
+          selectedCategory={selectedCategory} 
+          onSelectCategory={setSelectedCategory} 
+        />
+        
+        <FeaturedProjects projects={filteredProjects} />
       </div>
-    </div>
+      
+      <SkillsSection popularSkills={mockSkills} />
+      <HowItWorks />
+      <TestimonialSection />
+      <CallToAction />
+    </MainLayout>
   );
 };
 
